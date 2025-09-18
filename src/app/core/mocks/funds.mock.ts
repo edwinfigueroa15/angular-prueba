@@ -1,0 +1,34 @@
+import { Fund } from "@app/core/interfaces/db.mocks.interface";
+
+export const FUNDS: Fund[] = [
+    {
+        id: 1,
+        name: "FPV_BTG_PACTUAL_RECAUDADORA",
+        minimum: 75000,
+        category: "FPV"
+    },
+    {
+        id: 2,
+        name: "FPV_BTG_PACTUAL_ECOPETROL",
+        minimum: 125000,
+        category: "FPV"
+    },
+    {
+        id: 3,
+        name: "DEUDAPRIVADA",
+        minimum: 50000,
+        category: "FIC"
+    },
+    {
+        id: 4,
+        name: "FDO-ACCIONES",
+        minimum: 250000,
+        category: "FIC"
+    },
+    {
+        id: 5,
+        name: "FPV_BTG_PACTUAL_DINAMICA",
+        minimum: 100000,
+        category: "FPV"
+    }
+];
