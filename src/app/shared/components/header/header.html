@@ -1,1 +1,14 @@
-<p>header works!</p>
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-white !h-16 w-full p-4 shadow">
+    <div class="flex items-center gap-2 sm:gap-4">
+        <p-button icon="pi pi-align-justify" [rounded]="true" [outlined]="true" (click)="toggleSidebar()" class="" />
+        <span>Prueba</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+        <div class="text-right">
+            <p class="text-sm font-semibold">Nombre o correo</p>
+            <p class="text-xs text-gray-500">Rol</p>
+        </div>
+        <img class="h-10 w-10 rounded-full" src="https://i.pravatar.cc/100" alt="avatar" />
+    </div>
+</header>

@@ -1,2 +1,25 @@
-<h1>Pages</h1>
-<router-outlet />
+<!-- HEADER -->
+<app-header
+    [isCollapsed]="isCollapsedSignal()"
+    (eventButtonMenu)="isCollapsedSignal.set($event)">
+</app-header>
+
+<!-- SIDEBAR -->
+<app-sidebar
+    [isCollapsed]="isCollapsedSignal()"
+    [isHovered]="isHoveredSignal()"
+    (eventChangeStatusSidebar)="isCollapsedSignal.set($event)"
+    (eventChangeStatusHoverSidebar)="isHoveredSignal.set($event)"
+></app-sidebar>
+
+<div class="main-container">
+  <!-- CONTENIDO -->
+  <div
+    [style]="{ 'transition': 'margin-left 0.3s ease' }"
+    [ngClass]="isCollapsedSignal() ? 'ml-0 sm:ml-16' : 'ml-0 sm:ml-64'"
+  >
+    <div class="content scroll">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

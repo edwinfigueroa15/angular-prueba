@@ -21,3 +21,17 @@ p-toast {
         gap: 0 !important;
     }
 }
+
+.scroll::-webkit-scrollbar {
+    width: 4px;
+    height: 6px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background-color: #adb5bd;
+    border-radius: 20px;
+}

@@ -1,0 +1,25 @@
+.sidenav {
+    margin-top: 64px;
+    position: absolute;
+    overflow-x: hidden;
+    border-radius: 0;
+    height: calc(100vh - 64px);
+
+    &.sidenav-opened {
+        width: 256px;
+        transition: width 0.3s ease;
+    }
+
+    &.sidenav-collapsed {
+        width: 0 !important;
+        transition: width 0.3s ease;
+
+        .label {
+            display: none;
+        }
+
+        @media (min-width: 576px) {
+            width: 64px !important;
+        }
+    }
+}
