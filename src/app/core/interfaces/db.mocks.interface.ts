@@ -6,6 +6,7 @@ export interface User {
     name: string;
     email: string;
     phone: string;
+    notifications: 'email' | 'sms';
     balance: number;
     portfolio: PortfolioItem[];
 }

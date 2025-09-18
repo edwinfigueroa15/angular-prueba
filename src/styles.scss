@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+p-toast {
+    width: calc(100% - 40px) !important;
+    max-width: calc(100% - 40px) !important;
+
+    @media (min-width: 768px) {
+        width: 100% !important;
+        max-width: 25rem !important;
+    }
+
+    .p-toast-message-content {
+        padding: .5rem !important;
+    
+        svg {
+            margin-top: 4px !important;
+        }
+    }
+    
+    .p-toast-message-text {
+        gap: 0 !important;
+    }
+}

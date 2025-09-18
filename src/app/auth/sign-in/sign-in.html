@@ -1,0 +1,48 @@
+<p-toast />
+<div class="flex min-h-screen items-center justify-center bg-gray-100">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-lg mx-4">
+        <h1 class="mb-6 text-center text-2xl font-bold text-gray-800">Iniciar Sesión</h1>
+        <form [formGroup]="form" class="grid" (keypress.enter)="onSubmit()" novalidate>
+            <div>
+                <app-input-text
+                    type="text"
+                    label="Usuario"
+                    icon="pi pi-user"
+                    iconPosition="left"
+                    placeholder="Ingrese su usuario"
+                    [control]="form.controls.username"
+                    [errors]="errors.username">
+                </app-input-text>
+            </div>
+
+            <div>
+                <app-input-text
+                    type="password"
+                    icon="pi pi-lock"
+                    iconPosition="left"
+                    label="Contraseña"
+                    placeholder="Ingrese su contraseña"
+                    [control]="form.controls.password"
+                    [errors]="errors.password">
+                </app-input-text>
+            </div>
+
+            <div class="flex justify-end pb-4">
+                <a class="text-gray-600 cursor-pointer" (click)="forgotPassword()">Olvidaste tu contraseña?</a>
+            </div>
+
+            <div class="w-full">
+                <p-button
+                    label="Ingresar"
+                    [loading]="isLoading()"
+                    [disabled]="isLoading()"
+                    [raised]="true"
+                    size="small"
+                    styleClass="w-full"
+                    (onClick)="onSubmit()"
+                />
+            </div>
+        </form>
+    </div>
+</div>
+  

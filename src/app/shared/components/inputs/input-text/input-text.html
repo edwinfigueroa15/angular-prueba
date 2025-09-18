@@ -1,0 +1,45 @@
+<div class="w-full" [ngClass]="control.hasError(getKeyError(control.errors)) && control.dirty ? 'pb-0' : 'pb-4'">
+    @if(label) {
+        <label for="input" class="w-full block text-wrap">{{ label }}</label>
+    }
+    @if(sublabel) {
+        <label for="input" class="w-full block text-wrap mb-2 text-xs">{{ sublabel }}</label>
+    }
+    <p-iconField [iconPosition]="iconPosition">
+        @if(iconPosition === 'left') {
+            <p-inputIcon [styleClass]="icon + ' ' + iconClass" />
+        }
+        <input
+            [type]="type"
+            pInputText
+            pAutoFocus 
+            [autofocus]="autofocus"
+            [formControl]="control"
+            [placeholder]="placeholder"
+            [autocomplete]="autocomplete"
+            aria-describedby="input-text"
+            [ngStyle]="{ 'padding-left': !icon && '12px', 'padding-right': isTypePassword && '40px' }"
+            [class]="'w-full py-2 '+ inputClass"
+            (keypress)="validators($event)"
+            (input)="onChangeEvent($event)"
+        />
+
+        @if(iconPosition === 'right' && !isTypePassword) {
+            <p-inputIcon [styleClass]="icon + ' ' + iconClass" />
+        }
+
+        @if (isTypePassword) {
+            <i 
+                [ngClass]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                class="cursor-pointer absolute top-[12px] right-[14px] text-[#6b7280] !text-[18px]"
+                (click)="changeVisibilityPassword()">
+            </i>
+        }
+    </p-iconField>
+
+    @if(control.hasError(getKeyError(control.errors)) && control.dirty) {
+        <small id="input-text" class="text-wrap text-red-600 px-1">
+            {{ errors[nameError].message }}
+        </small>
+    }
+</div>

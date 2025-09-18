@@ -9,6 +9,7 @@ export const USERS: User[] = [
         name: "Carlos Pérez",
         email: "carlos@btg.com",
         phone: "3001112233",
+        notifications: 'email',
         balance: 500000,
         portfolio: [
             {
@@ -26,6 +27,7 @@ export const USERS: User[] = [
         name: "Ana Torres",
         email: "ana@btg.com",
         phone: "3104445566",
+        notifications: 'sms',
         balance: 500000,
         portfolio: []
     }
