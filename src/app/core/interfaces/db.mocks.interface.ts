@@ -38,4 +38,6 @@ export interface Transaction {
     fundId: number;
     amount: number;
     date: string;
+    user: User;
+    fund: Fund;
 }

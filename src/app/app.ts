@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserStoreService } from '@app/core/services/user-store.service';
 import { UtilsService } from '@app/shared/utils/utils.service';
+import { MocksDbService } from '@app/core/services/mocks-db.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,12 @@ import { UtilsService } from '@app/shared/utils/utils.service';
   styleUrl: './app.scss'
 })
 export class App {
+  private _mocksDbService = inject(MocksDbService);
   private _userStoreService = inject(UserStoreService);
   private _utilsService = inject(UtilsService);
 
   ngOnInit() {
+    this._mocksDbService.init();
     this.getUserAuth();
   }
 

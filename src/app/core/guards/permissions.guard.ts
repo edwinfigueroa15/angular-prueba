@@ -11,8 +11,8 @@ export class PermissionsGuard implements CanActivate {
 	private _userStoreService = inject(UserStoreService);
 
 	async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-        const permissions = this._userStoreService.user()?.role!.permissions;
-		if(permissions?.includes(state.url)) return true;
+        const permissions = this._userStoreService.user()?.role?.permissions || [];
+		if(permissions && permissions?.includes(state.url)) return true;
         
         this._utilsService.routerLink('/pages/home', { replaceUrl: true })
 		return false;

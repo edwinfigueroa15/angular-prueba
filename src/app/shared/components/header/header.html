@@ -7,7 +7,7 @@
     <div class="flex items-center gap-3">
         <div class="text-right">
             <p class="text-sm font-semibold">{{ currentUser()?.name }}</p>
-            <p class="text-xs text-gray-500">{{ currentUser()?.roleId === 1 ? 'Admin' : 'Consultor' }}</p>
+            <p class="text-xs text-gray-500">{{ currentUser()?.balance | currency }}</p>
         </div>
         <img class="h-10 w-10 rounded-full" src="https://i.pravatar.cc/100" alt="avatar" />
     </div>

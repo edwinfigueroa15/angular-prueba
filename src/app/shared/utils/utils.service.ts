@@ -73,4 +73,10 @@ export class UtilsService {
       return '';
     }
   }
+
+  generateId(): string {
+    const timestamp = new Date().getTime().toString();
+    const random = Math.random().toString();
+    return CryptoJS.SHA256(timestamp + random).toString().substring(0, 16); // corta a 16 chars
+  }
 }

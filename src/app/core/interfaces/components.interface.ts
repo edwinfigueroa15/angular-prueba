@@ -11,6 +11,7 @@ export interface StructureTable {
     sort?: boolean;
     capitalize?: boolean;
     formatMoney?: boolean;
+    formatDate?: boolean;
 }
 
 export interface OptionsTable {

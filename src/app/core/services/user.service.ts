@@ -1,23 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { USERS } from '@app/core/mocks/users.mock';
-import { UtilsService } from '@app/shared/utils/utils.service';
-import { UserStoreService } from '@app/core/services/user-store.service';
-import { ROLES } from '@app/core/mocks/roles.mock';
 import { User } from '@app/core/interfaces/db.mocks.interface';
+import { MocksDbService } from '@app/core/services/mocks-db.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _userStoreService = inject(UserStoreService);
-  private _utilsService = inject(UtilsService);
+  private _mocksDbService = inject(MocksDbService);
 
   getAll(): Observable<User[]> {
-    const populateUser = USERS.map(user => {
+    const populateUser = this._mocksDbService.users.map(user => {
       return {
         ...user,
-        role: ROLES.find(role => role.id === user.roleId)!
+        role: this._mocksDbService.roles.find(role => role.id === user.roleId)!
       }
     });
 

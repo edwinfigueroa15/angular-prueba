@@ -59,11 +59,17 @@ export class Sidebar {
   }
 
   optionsPermited() {
-    this.menuItems = this.menuItems.filter((item) => {
-      if (!item.children) return this._userStoreService.user()?.role!.permissions.includes(item.route!);
+    const permissions = this._userStoreService.user()?.role?.permissions;
+    if(!permissions) {
+      this.menuItems = [];
+      return;
+    }
+
+    this.menuItems = this.menuItems.filter(item => {
+      if (!item.children) return permissions?.includes(item.route!);
 
       item.children = item.children.filter(child => {
-        return this._userStoreService.user()?.role!.permissions.includes(child.route!);
+        return permissions?.includes(child.route!);
       });
 
       return item.children.length > 0 ? true : false;

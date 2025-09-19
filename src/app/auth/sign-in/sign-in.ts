@@ -27,8 +27,8 @@ export class SignIn {
 
   isLoading = signal(false);
   form = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
+    username: new FormControl('admin', [Validators.required]),
+    password: new FormControl('admin123', [Validators.required]),
   })
 
   errors = {
@@ -52,7 +52,7 @@ export class SignIn {
       next: (user) => {
         if (!user) {
           this.isLoading.set(false);
-          this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Se produjo un error al iniciar sesión', life: 300000000 });
+          this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Se produjo un error al iniciar sesión', life: 5000 });
           return;
         }
 
@@ -63,7 +63,7 @@ export class SignIn {
       error: (error) => {
         console.log(error);
         this.isLoading.set(false);
-        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Se produjo un error al iniciar sesión', life: 3000 });
+        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Se produjo un error al iniciar sesión', life: 5000 });
       }
     });
   }

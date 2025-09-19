@@ -6,15 +6,21 @@ import { FundsService } from '@app/core/services/funds.service';
 import { UserStoreService } from '@app/core/services/user-store.service';
 import { Fund } from '@app/core/interfaces/db.mocks.interface';
 
+// PrimeNG
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
+
 @Component({
   selector: 'app-subscription',
-  imports: [AngularModule, Table],
+  imports: [AngularModule, Table, Toast],
   templateUrl: './subscription.html',
-  styleUrl: './subscription.scss'
+  styleUrl: './subscription.scss',
+  providers: [MessageService]
 })
 export class Subscription {
   private _fundsService = inject(FundsService);
   private _userStoreService = inject(UserStoreService);
+  private _messageService = inject(MessageService);
 
   isLoadingTable = signal<boolean>(true);
   structureTable: TableInterface = {
@@ -48,8 +54,12 @@ export class Subscription {
   getAllFunds() {
     this._fundsService.getAll().subscribe({
       next: (response) => {
+        let funds: Fund[] = response;
         const portfolio = this._userStoreService.user()?.portfolio;
-        this.structureTable.data = response.filter(fund => portfolio?.some(itemPortfolio => itemPortfolio.fundId !== fund.id));
+        if(portfolio?.length) {
+          funds = response.filter(fund => !portfolio.some(item => item.fundId === fund.id));
+        }
+        this.structureTable.data = funds;
         this.isLoadingTable.set(false);
       },
       error: (error) => {
@@ -60,6 +70,27 @@ export class Subscription {
   }
 
   actionEvent(event: { item: Fund, action: string }) {
-    console.log(event);
+    switch (event.action) {
+      case 'linkage':
+        this.linkage(event.item);
+        break;
+    }
+  }
+
+  linkage(fund: Fund) {
+    const user = this._userStoreService.user();
+    if(!user || user?.balance! < fund.minimum) {
+      this._messageService.add({ severity: 'error', summary: 'Error', detail: `No tiene saldo disponible para vincularse al fondo ${fund.name}`, life: 5000 });
+      return;
+    }
+
+    this._fundsService.createSubscription(fund).subscribe({
+      next: () => {
+        this.getAllFunds();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 }

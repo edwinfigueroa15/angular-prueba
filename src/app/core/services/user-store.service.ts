@@ -1,11 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '@app/core/interfaces/db.mocks.interface';
-import { ROLES } from '../mocks/roles.mock';
+import { MocksDbService } from '@app/core/services/mocks-db.service';
+import { UtilsService } from '@app/shared/utils/utils.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserStoreService {
+    private _mocksDbService = inject(MocksDbService);
+    private _utilsService = inject(UtilsService);
+
     private _user = signal<User | null>(null);
     user = this._user.asReadonly();
 
@@ -13,8 +17,10 @@ export class UserStoreService {
         const { password, ...userData } = user;
         const populateUser = {
             ...userData,
-            role: ROLES.find(role => role.id === userData.roleId)!
+            role: this._mocksDbService.roles.find(role => role.id === userData.roleId)!
         }
+
+        localStorage.setItem('currentUser', this._utilsService.encrypt(JSON.stringify(populateUser)));
         this._user.set(populateUser);
     }
 

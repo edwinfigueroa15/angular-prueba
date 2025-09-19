@@ -1,1 +1,18 @@
-<p>cancellation works!</p>
+<div class="pb-4">
+    <span class="block font-medium text-3xl">Cancelación</span>
+</div>
+
+@if(!structureTable.data.length) {
+    <div class="w-full flex items-center justify-center">
+        <span class="text-gray-500 text-lg text-center">No tiene fondos suscritos para cancelar</span>
+    </div>
+
+} @else {
+    <div class="p-4 rounded-lg shadow">
+        <app-table
+            [isLoadingTable]="isLoadingTable()"
+            [structureTable]="structureTable"
+            (actionEvent)="actionEvent($event)"
+        ></app-table>
+    </div>
+}
