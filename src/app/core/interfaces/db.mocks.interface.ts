@@ -9,6 +9,7 @@ export interface User {
     phone: string;
     notifications: 'email' | 'sms';
     balance: number;
+    avatar?: string;
     portfolio: PortfolioItem[];
 }
 

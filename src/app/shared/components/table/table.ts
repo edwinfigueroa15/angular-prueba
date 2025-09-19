@@ -24,5 +24,9 @@ export class Table {
 
   eventAction(item: any, action: string) {
     this.actionEvent.emit({ item, action });
+  } 
+
+  getValueByPath(obj: any, path: string) {
+    return path.split('.').reduce((acc: any, key: string) => acc?.[key], obj);
   }
 }

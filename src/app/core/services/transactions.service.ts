@@ -21,6 +21,18 @@ export class TransactionsService {
     return of(populateTransactions);
   }
 
+  getByUser(userId: number) {
+    const populateTransactions = this._mocksDbService.transactions.filter(transaction => transaction.userId === userId).map(transaction => {
+      return {
+        ...transaction,
+        user: this._mocksDbService.users.find(user => user.id === transaction.userId)!,
+        fund: this._mocksDbService.funds.find(fund => fund.id === transaction.fundId)!,
+      }
+    });
+
+    return of(populateTransactions);
+  }
+
   create(transaction: Transaction) {
     this._mocksDbService.transactions = [...this._mocksDbService.transactions, transaction];
     return of(true);

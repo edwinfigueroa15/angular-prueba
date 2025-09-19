@@ -43,7 +43,7 @@
                         </td>
                     }
                 } @else {
-                    <td>{{ row.formatMoney ? (item[row.key] | currency) : row.capitalize ? (item[row.key] | capitalizeFirstLetter) : row.formatDate ? (item[row.key] | date: 'dd/MM/yyyy') : item[row.key] }}</td>
+                    <td>{{ row.formatMoney ? (getValueByPath(item, row.key) | currency) : row.capitalize ? (getValueByPath(item, row.key) | capitalizeFirstLetter) : row.formatDate ? (getValueByPath(item, row.key) | date: 'dd/MM/yyyy') : getValueByPath(item, row.key) }}</td>
                 }
             }
         </tr>

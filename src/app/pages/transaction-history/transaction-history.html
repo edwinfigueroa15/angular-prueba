@@ -1,1 +1,34 @@
-<p>transaction-history works!</p>
+<p-toast />
+
+<div class="pb-4 w-full flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <span class="block font-medium text-3xl">Historial de transacciones</span>
+    @if(!isAdmin()) {
+        <div class="">
+            <app-input-select
+                [control]="userControl"
+                [options]="listUsers"
+                optionLabel="name"
+                optionValue="id"
+                optionImg="avatar"
+                [filter]="true"
+                filterBy="name"
+                placeholder="Selecciona un usuario"
+                (onChange)="onUserChange($event)">
+            </app-input-select>
+        </div>
+    }
+</div>
+
+@if(!structureTable.data.length) {
+    <div class="w-full flex items-center justify-center">
+        <span class="text-gray-500 text-lg text-center">No existen transacciones</span>
+    </div>
+
+} @else {
+    <div class="p-4 rounded-lg shadow">
+        <app-table
+            [isLoadingTable]="isLoadingTable()"
+            [structureTable]="structureTable"
+        ></app-table>
+    </div>
+}

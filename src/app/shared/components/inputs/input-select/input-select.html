@@ -1,0 +1,30 @@
+<p-select
+    [options]="options"
+    [optionValue]="optionValue"
+    [formControl]="control" 
+    [filter]="filter"
+    [filterBy]="filterBy"
+    [showClear]="true"
+    [placeholder]="placeholder"
+    class="w-full md:w-56"
+    (onChange)="onChangeEvent($event)"
+>
+    <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center gap-2">
+            @if(optionImg) {
+                <img [src]="selectedOption[optionImg]" class="rounded-full w-6" />
+            }
+            <div class="text-ellipsis">{{ selectedOption[optionLabel] }}</div>
+        </div>
+    </ng-template>
+
+    <ng-template #item let-optionsItem>
+        <div class="flex items-center gap-2">
+            @if(optionImg) {
+                <img [src]="optionsItem[optionImg]" class="rounded-full w-6" />
+            }
+            <div class="text-ellipsis">{{ optionsItem[optionLabel] }}</div>
+        </div>
+    </ng-template>
+
+</p-select>
