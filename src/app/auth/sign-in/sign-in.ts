@@ -48,7 +48,7 @@ export class SignIn {
     if (this.form.invalid || this.isLoading()) return;
     this.isLoading.set(true);
 
-    this._authService.signIn(this.form.value as any) .subscribe({
+    this._authService.signIn(this.form.value as any).subscribe({
       next: (user) => {
         if (!user) {
           this.isLoading.set(false);
@@ -56,10 +56,8 @@ export class SignIn {
           return;
         }
 
-        this._utilsService.setLocalStorage('currentUser', user);
-        this._userStoreService.setUser(user);
+        localStorage.setItem('currentUser', this._utilsService.encrypt(JSON.stringify(user)));
         this.isLoading.set(false);
-        this._messageService.add({ severity: 'success', summary: 'Exito', detail: 'Se inicio sesión correctamente', life: 3000 });
         this._utilsService.routerLink('/dashboard');
       },
       error: (error) => {

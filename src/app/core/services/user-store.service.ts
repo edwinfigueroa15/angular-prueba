@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { User } from '@app/core/interfaces/db.mocks.interface';
+import { ROLES } from '../mocks/roles.mock';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,12 @@ export class UserStoreService {
     user = this._user.asReadonly();
 
     setUser(user: User) {
-        this._user.set(user);
+        const { password, ...userData } = user;
+        const populateUser = {
+            ...userData,
+            role: ROLES.find(role => role.id === userData.roleId)!
+        }
+        this._user.set(populateUser);
     }
 
     clearUser() {
@@ -18,6 +24,7 @@ export class UserStoreService {
 
     updateUser(partial: Partial<User>) {
         const current = this._user();
-        if (current) this._user.set({ ...current, ...partial });
+        const { password, ...partialData } = partial;
+        if (current) this._user.set({ ...current, ...partialData });
     }
 }

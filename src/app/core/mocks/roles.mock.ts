@@ -4,11 +4,20 @@ export const ROLES: Role[] = [
     {
         id: 1,
         name: "admin",
-        permissions: []
+        permissions: [
+            '/pages/home',
+            '/pages/fund-management',
+            '/pages/fund-management/subscription',
+            '/pages/fund-management/cancellation',
+            '/pages/transaction-history'
+        ]
     },
     {
         id: 2,
         name: "consultant",
-        permissions: []
+        permissions: [
+            '/pages/home',
+            '/pages/transaction-history'
+        ]
     }
 ];

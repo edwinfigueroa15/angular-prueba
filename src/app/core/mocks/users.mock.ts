@@ -1,4 +1,5 @@
 import { User } from "@app/core/interfaces/db.mocks.interface";
+import { ROLES } from "./roles.mock";
 
 export const USERS: User[] = [
     {
@@ -6,6 +7,7 @@ export const USERS: User[] = [
         username: "admin",
         password: "admin123",
         roleId: 1,
+        role: null,
         name: "Carlos Pérez",
         email: "carlos@btg.com",
         phone: "3001112233",
@@ -24,6 +26,7 @@ export const USERS: User[] = [
         username: "consultor",
         password: "consultor123",
         roleId: 2,
+        role: null,
         name: "Ana Torres",
         email: "ana@btg.com",
         phone: "3104445566",

@@ -1,6 +1,8 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { NavigationBehaviorOptions, Router } from '@angular/router';
+import { environment } from '@environments/environment';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +54,23 @@ export class UtilsService {
   removeValidator(control: AbstractControl, validator: ValidatorFn | ValidatorFn[]) {
     control.removeValidators(validator);
     control.updateValueAndValidity();
+  }
+
+  // ---------------------------------------------- ::
+  // ENCRYPT
+  encrypt(textToEncrypt : string): string {
+    try {
+      return CryptoJS.AES.encrypt(textToEncrypt, environment.SECRET_KEY.trim()).toString();
+    } catch (error) {
+      return '';
+    }
+  }
+
+  decrypt(textToDecrypt : string): string {
+    try {
+      return CryptoJS.AES.decrypt(textToDecrypt, environment.SECRET_KEY.trim()).toString(CryptoJS.enc.Utf8);
+    } catch (error) {
+      return '';
+    }
   }
 }

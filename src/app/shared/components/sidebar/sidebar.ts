@@ -1,7 +1,10 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserStoreService } from '@app/core/services/user-store.service';
 import { AngularModule } from '@app/shared/modules';
 
 interface MenuItem {
+  key: string;
   label: string;
   icon: string;
   route?: string;
@@ -16,6 +19,9 @@ interface MenuItem {
   styleUrl: './sidebar.scss'
 })
 export class Sidebar {
+  private _router = inject(Router);
+  private _userStoreService = inject(UserStoreService);
+
   toggleStates: { [key: number]: boolean } = {};
   isCollapsed = input<boolean>(false);
   isHovered = input<boolean>(false);
@@ -23,34 +29,65 @@ export class Sidebar {
   eventChangeStatusSidebar = output<boolean>();
   eventChangeStatusHoverSidebar = output<boolean>();
 
-  openIndex: number | null = null;
   menuItems: MenuItem[] = [
     {
+      key: 'home',
       label: 'Inicio',
       icon: 'pi pi-home',
       route: '/pages/home'
     },
     {
+      key: 'fund-management',
       label: 'Gestión de fondos',
       icon: 'pi pi-wallet',
       children: [
-        { label: 'Suscripción', icon: 'pi pi-plus', route: '/pages/fund-management/subscription' },
-        { label: 'Cancelación', icon: 'pi pi-user-minus', route: '/pages/fund-management/cancellation' }
+        { key: 'subscription', label: 'Suscripción', icon: 'pi pi-plus', route: '/pages/fund-management/subscription' },
+        { key: 'cancellation', label: 'Cancelación', icon: 'pi pi-user-minus', route: '/pages/fund-management/cancellation' }
       ]
     },
     {
+      key: 'transaction-history',
       label: 'Historial de transacciones',
       icon: 'pi pi-chart-line',
       route: '/pages/transaction-history'
     },
   ];
 
+  ngOnInit() {
+    this.optionsPermited();
+    this.showOptionCurrentMenu();
+  }
+
+  optionsPermited() {
+    this.menuItems = this.menuItems.filter((item) => {
+      if (!item.children) return this._userStoreService.user()?.role!.permissions.includes(item.route!);
+
+      item.children = item.children.filter(child => {
+        return this._userStoreService.user()?.role!.permissions.includes(child.route!);
+      });
+
+      return item.children.length > 0 ? true : false;
+    });
+  }
+
+  showOptionCurrentMenu() {
+    this.menuItems.forEach((item, index) => {
+      if (item.children) {
+        item.children.forEach((child, childIndex) => {
+          if (child.route === this._router.url) this.toggleStates[index] = true;
+        });
+      }
+
+      if (item.route === this._router.url) this.toggleStates[index] = true;
+    });
+  }
+
   toggleSubmenu(index: number) {
     this.toggleStates[index] = !this.toggleStates[index];
   }
 
   toggleSidebar() {
-    this.eventChangeStatusSidebar.emit(!this.isCollapsed);
+    this.eventChangeStatusSidebar.emit(!this.isCollapsed());
   }
 
   onMouseEnter() {
