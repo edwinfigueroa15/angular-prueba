@@ -1,0 +1,51 @@
+
+<p-table
+    [value]="structureTable()?.data!"
+    [loading]="isLoadingTable()"
+    [paginator]="structureTable()?.options?.paginator?.show"
+    [rows]="structureTable()?.options?.paginator?.rows"
+    [rowsPerPageOptions]="structureTable()?.options?.paginator?.perPage"
+    [tableStyle]="{ 'min-width': '50rem' }"
+>
+    <ng-template #header>
+        <tr>
+            @for(column of structureTable()?.structure; track $index) {
+                @if(column.key === 'actions') {
+                    @if(structureTable()?.options?.actions?.show) {
+                        <th style="width: 5rem"></th>
+                    }
+                } @else {
+                    <th [pSortableColumn]="column.key">
+                        {{ column.label }}
+                        <p-sortIcon [field]="column.key" />
+                    </th>
+                }
+            }
+        </tr>
+    </ng-template>
+    <ng-template #body let-item>
+        <tr>
+            @for (row of structureTable()?.structure; track $index) {
+                @if(row.key === 'actions') {
+                    @if (structureTable()?.options?.actions?.show) {
+                        <td class="flex gap-1">
+                            @for (action of structureTable()?.options?.actions?.actionsList; track $index) {
+                                <p-button
+                                    size="small"
+                                    [icon]="action.icon"
+                                    (click)="eventAction(item, action.key)"
+                                    [severity]="action.severity"
+                                    [rounded]="true"
+                                    [loading]="action.loading"
+                                    [disabled]="action.disabled"
+                                />
+                            }
+                        </td>
+                    }
+                } @else {
+                    <td>{{ row.formatMoney ? (item[row.key] | currency) : row.capitalize ? (item[row.key] | capitalizeFirstLetter) : item[row.key] }}</td>
+                }
+            }
+        </tr>
+    </ng-template>
+</p-table>

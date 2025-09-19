@@ -1,1 +1,11 @@
-<p>subscription works!</p>
+<div class="pb-4">
+    <span class="block font-medium text-3xl">Subscripción</span>
+</div>
+
+<div class="p-4 rounded-lg shadow">
+    <app-table
+        [isLoadingTable]="isLoadingTable()"
+        [structureTable]="structureTable"
+        (actionEvent)="actionEvent($event)"
+    ></app-table>
+</div>

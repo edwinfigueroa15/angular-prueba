@@ -1,4 +1,5 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
+import { UserStoreService } from '@app/core/services/user-store.service';
 import { AngularModule } from '@app/shared/modules';
 import { Button } from "primeng/button";
 
@@ -9,6 +10,9 @@ import { Button } from "primeng/button";
   styleUrl: './header.scss'
 })
 export class Header {
+  private _userStoreService = inject(UserStoreService);
+
+  currentUser = this._userStoreService.user;
   isCollapsed = input<boolean>(false);
   eventButtonMenu = output<boolean>();
 
