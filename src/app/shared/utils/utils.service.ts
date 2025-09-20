@@ -14,7 +14,7 @@ export class UtilsService {
   // ---------------------------------------------- ::
   // FUNCTIONS
   isNumber(value: any) {
-    const regex = /^-?[0-9.]*$/;
+    const regex = /^[0-9]*$/;
     return regex.test(value);
   }
 

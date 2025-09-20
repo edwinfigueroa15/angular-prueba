@@ -2,7 +2,6 @@ import { AngularModule } from '@app/shared/modules';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@app/core/services/auth.service';
-import { UserStoreService } from '@app/core/services/user-store.service';
 import { UtilsService } from '@app/shared/utils/utils.service';
 import { InputText } from '@app/shared/components/inputs/input-text/input-text';
 
@@ -22,13 +21,12 @@ import { Toast } from 'primeng/toast';
 export class SignIn {
   private _authService = inject(AuthService);
   private _messageService = inject(MessageService);
-  private _userStoreService = inject(UserStoreService);
   private _utilsService = inject(UtilsService);
 
   isLoading = signal(false);
   form = new FormGroup({
-    username: new FormControl('admin', [Validators.required]),
-    password: new FormControl('admin123', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   })
 
   errors = {

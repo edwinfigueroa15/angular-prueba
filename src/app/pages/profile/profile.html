@@ -1,0 +1,76 @@
+<p-toast />
+<p-confirmdialog />
+
+<div class="pb-4">
+    <h2 class="text-2xl font-bold">Perfil</h2>
+</div>
+
+<form [formGroup]="form" class="grid grid-cols-12 gap-4" (ngSubmit)="onSubmit()">
+    <div class="col-span-12 md:col-span-4 lg:col-span-3 flex flex-col items-center gap-4">
+        <img [src]="user.avatar" alt="" class="w-40 rounded-full">
+        <p-button icon="pi pi-upload" label="Cambiar imagen" [raised]="true" size="small" (click)="onUploadAvatar()"/>
+    </div>
+
+    <div class="col-span-12 md:col-span-8 lg:col-span-9">
+        <div class="w-full">
+            <app-input-text
+                type="text"
+                label="Nombre"
+                icon="pi pi-user"
+                iconPosition="left"
+                placeholder="Ingrese su nombre"
+                [control]="form.controls.name"
+                [errors]="errors.name">
+            </app-input-text>
+        </div>
+
+        <div class="w-full">
+            <app-input-text
+                type="text"
+                label="Usuario"
+                icon="pi pi-user"
+                iconPosition="left"
+                placeholder="Ingrese su usuario"
+                [control]="form.controls.username"
+                [errors]="errors.username">
+            </app-input-text>
+        </div>
+
+        <div class="w-full">
+            <app-input-text
+                type="email"
+                label="Correo electrónico"
+                icon="pi pi-envelope"
+                iconPosition="left"
+                placeholder="Ingrese su correo electrónico"
+                [control]="form.controls.email"
+                [errors]="errors.email">
+            </app-input-text>
+        </div>
+
+        <label class="w-full">Notificaciones</label>
+        <div class="w-full flex flex-wrap gap-4">
+            <div class="flex items-center">
+                <p-radiobutton name="notifications" value="email" formControlName="notifications" inputId="email" />
+                <label for="email" class="ml-2">Email</label>
+            </div>
+        
+            <div class="flex items-center">
+                <p-radiobutton name="notifications" value="sms" formControlName="notifications" inputId="sms" />
+                <label for="sms" class="ml-2">SMS</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 flex justify-end">
+        <p-button
+            type="submit"
+            label="Actualizar"
+            [loading]="isLoading()"
+            [disabled]="isLoading()"
+            [raised]="true"
+            size="small"
+            styleClass="w-full"
+        />
+    </div>
+</form>
