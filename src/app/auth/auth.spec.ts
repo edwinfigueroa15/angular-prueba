@@ -18,6 +18,6 @@ describe('Auth', () => {
     const fixture = TestBed.createComponent(Auth);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, BTG-Pactual-Test');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Auth');
   });
 });

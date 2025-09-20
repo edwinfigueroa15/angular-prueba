@@ -1,59 +1,110 @@
-# BTGPactualTest
+# Prueba Amaris
+ 
+ Este repositorio no corresponde a código oficial de BTG Pactual, únicamente corresponde a una prueba técnica personal.
+ 
+ 
+# Guía para ejecutar el proyecto
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.1.
+Esta guía te ayudará a preparar tu entorno y a ejecutar la aplicación Angular en tu máquina local.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js: 18.19.x, 20.11.x o 22.x (Angular 20)
+- npm (incluido con Node.js)
+- Git
+- Navegador moderno (Chrome, Edge, Firefox)
+- Opcional: Angular CLI instalada globalmente `npm i -g @angular/cli` (también puedes usar `npx`)
+- Opcional: AWS CLI (solo si usarás el script de `npm run deploy`)
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Verifica tus versiones:
 
 ```bash
-ng generate --help
+node -v
+npm -v
+ng version   # opcional; si no tienes CLI global, usa: npx ng version
 ```
 
-## Building
+Descarga Node.js desde: https://nodejs.org
 
-To build the project run:
+## Clonar el repositorio
 
 ```bash
-ng build
+git clone https://github.com/edwinfigueroa15/angular-prueba.git
+cd angular-prueba
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Instalación de dependencias
 
-## Running unit tests
+Ejecuta una de las siguientes opciones:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Si existe `package-lock.json` (recomendado):
+  ```bash
+  npm ci
+  ```
+
+- Si no existe `package-lock.json`:
+  ```bash
+  npm install
+  ```
+
+## Usuarios de prueba (credenciales)
+
+ Usa cualquiera de estos usuarios para iniciar sesión durante la prueba:
+
+ - Usuario: `admin` — Contraseña: `admin123`
+ - Usuario: `consultor` — Contraseña: `consultor123`
+ - Usuario: `root` — Contraseña: `root123`
+
+## Ejecutar en modo desarrollo
+
+Opción A (recomendada, sin CLI global):
+```bash
+npx ng serve --open
+```
+
+Opción B (usando scripts de npm):
+```bash
+npm start
+```
+
+La aplicación quedará disponible en:
+
+- http://localhost:4200/
+
+## Construcción para producción
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+La salida se genera en `dist/Prueba-Amaris/browser/`.
 
-For end-to-end (e2e) testing, run:
+## Despliegue AWS (opcional)
+
+Para desplegar la aplicación en AWS primero debes crear la infraestructura con el script `deploy-aws.sh` y cuando finalice la creación de la infraestructura puedes usar el script `deploy-change.sh` para desplegar los cambios. Para que ambos archivos funcionen como ejecutable primero se le deben dar los permisos para eso con el comando:
 
 ```bash
-ng e2e
+chmod +x deploy-aws.sh
+chmod +x deploy-change.sh
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Luego puedes ejecutar los scripts de la siguiente manera:
 
-## Additional Resources
+Primero creamos la infraestructura Nota: Este script solo se ejecuta una vez y se puede tardar entre 5 a 10 minutos en terminar:
+```bash
+./deploy-aws.sh
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Luego desplegamos los cambios Nota: Este script se ejecuta cada vez que se quiera desplegar un cambio:
+```bash
+./deploy-change.sh
+```
+
+
+## Estructura y tecnologías
+
+- Angular ^20
+- PrimeNG y PrimeIcons para componentes UI
+- Tailwind CSS (v4) y `@tailwindcss/postcss`
+
+Si necesitas ayuda adicional o deseas agregar más instrucciones, avísame y lo actualizamos.

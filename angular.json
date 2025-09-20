@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "BTG-Pactual-Test": {
+    "Prueba-Amaris": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -51,7 +51,13 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -71,10 +77,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "BTG-Pactual-Test:build:production"
+              "buildTarget": "Prueba-Amaris:build:production"
             },
             "development": {
-              "buildTarget": "BTG-Pactual-Test:build:development"
+              "buildTarget": "Prueba-Amaris:build:development"
             }
           },
           "defaultConfiguration": "development"
