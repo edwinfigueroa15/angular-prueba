@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, HostListener, inject, input, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserStoreService } from '@app/core/services/user-store.service';
 import { AngularModule } from '@app/shared/modules';
@@ -56,6 +56,7 @@ export class Sidebar {
   ngOnInit() {
     this.optionsPermited();
     this.showOptionCurrentMenu();
+    this.ensureMobileCollapsed();
   }
 
   optionsPermited() {
@@ -102,5 +103,30 @@ export class Sidebar {
 
   onMouseLeave() {
     if (this.isCollapsed()) this.eventChangeStatusHoverSidebar.emit(false);
+  }
+
+  onItemClicked() {
+    try {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+      if (isMobile) {
+        this.eventChangeStatusSidebar.emit(true);
+        this.eventChangeStatusHoverSidebar.emit(false);
+      }
+    } catch {}
+  }
+
+  private ensureMobileCollapsed() {
+    try {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+      if (isMobile && !this.isCollapsed()) {
+        this.eventChangeStatusSidebar.emit(true);
+        this.eventChangeStatusHoverSidebar.emit(false);
+      }
+    } catch {}
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.ensureMobileCollapsed();
   }
 }

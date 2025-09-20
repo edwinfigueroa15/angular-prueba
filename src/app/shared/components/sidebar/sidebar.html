@@ -13,6 +13,7 @@
                 [routerLink]="item.route"
                 routerLinkActive="bg-primary text-white"
                 class="flex items-center p-2 rounded-md h-10 hover:bg-primary hover:text-white transition-colors overflow-hidden text-ellipsis whitespace-nowrap"
+                (click)="onItemClicked()"
             >
                 <div class="flex items-center" [ngClass]="isCollapsed() && !isHovered() ? 'w-full justify-center' : ''">
                     <i [class]="item.icon"></i>
@@ -54,6 +55,7 @@
                                 routerLinkActive="bg-primary-400 text-white"
                                 [routerLinkActiveOptions]="{ exact: true }"
                                 class="flex items-center p-2 rounded-md h-10 hover:bg-primary-400 hover:text-white transition-colors overflow-hidden text-ellipsis whitespace-nowrap"
+                                (click)="onItemClicked()"
                             >
                                 <div class="flex items-center" [ngClass]="isCollapsed() && !isHovered() ? 'w-full justify-center' : ''">
                                     <i [class]="child.icon"></i>
