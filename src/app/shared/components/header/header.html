@@ -1,7 +1,7 @@
 <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-white !h-16 w-full p-4 shadow">
     <div class="flex items-center gap-2 sm:gap-4">
         <p-button icon="pi pi-align-justify" [rounded]="true" [outlined]="true" (click)="toggleSidebar()" class="" />
-        <span>Prueba</span>
+        <span class="text-lg font-bold">BTG Pactual</span>
     </div>
 
     <div class="flex items-center gap-3">
@@ -9,6 +9,9 @@
             <p class="text-sm font-semibold">{{ currentUser()?.name }}</p>
             <p class="text-xs text-gray-500">{{ currentUser()?.balance | currency }}</p>
         </div>
-        <img class="h-10 w-10 rounded-full" src="{{ currentUser()?.avatar }}" alt="avatar" />
+        <img class="h-10 w-10 rounded-full cursor-pointer" src="{{ currentUser()?.avatar }}" alt="avatar" (click)="menu.toggle($event)" />
+
+        <!-- Dropdown -->
+        <p-menu #menu [model]="items" [popup]="true" />
     </div>
 </header>

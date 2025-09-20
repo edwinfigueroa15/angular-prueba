@@ -22,9 +22,8 @@ export class AuthService {
     const currentUser = this._mocksDbService.users.find(userItem => userItem.username === body.username && userItem.password === body.password);
     if (!currentUser) return of(null);
 
-    const { password, ...userData } = currentUser;
     const populateUser = {
-      ...userData,
+      ...currentUser,
       role: this._mocksDbService.roles.find(role => role.id === currentUser.roleId)!
     };
 
@@ -35,8 +34,7 @@ export class AuthService {
   changePassword(email: string): Observable<User | null> {
     const currentUser = this._mocksDbService.users.find(userItem => userItem.email === email);
     if (!currentUser) return of(null);
-    const { password, ...userData } = currentUser;
-    return of(userData);
+    return of(currentUser);
   }
 
   signOut() {

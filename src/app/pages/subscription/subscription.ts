@@ -7,17 +7,19 @@ import { UserStoreService } from '@app/core/services/user-store.service';
 import { Fund } from '@app/core/interfaces/db.mocks.interface';
 
 // PrimeNG
-import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-subscription',
-  imports: [AngularModule, Table, Toast],
+  imports: [AngularModule, Table, ToastModule, ConfirmDialog],
   templateUrl: './subscription.html',
   styleUrl: './subscription.scss',
-  providers: [MessageService]
+  providers: [ConfirmationService, MessageService]
 })
 export class Subscription {
+  private _confirmationService = inject(ConfirmationService);
   private _fundsService = inject(FundsService);
   private _userStoreService = inject(UserStoreService);
   private _messageService = inject(MessageService);
@@ -69,10 +71,45 @@ export class Subscription {
     });
   }
 
+  confirm(event: any, options: any) {
+    this._confirmationService.confirm({
+      target: event.target as EventTarget,
+      header: options.header,
+      message: options.message,
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: options.rejectButtonProps.label,
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: options.acceptButtonProps.label,
+      },
+      accept: () => {
+        options.accept();
+      },
+    });
+  }
+
   actionEvent(event: { item: Fund, action: string }) {
     switch (event.action) {
       case 'linkage':
-        this.linkage(event.item);
+        const options = {
+          header: "Vincularse al fondo",
+          message: "Estas seguro de vincularse al fondo?",
+          acceptButtonProps: {
+            label: "Sí, Vincularse",
+          },
+          rejectButtonProps: {
+            label: "Cerrar",
+          },
+          accept: () => {
+            this.linkage(event.item);
+          },
+        }
+        this.confirm(event, options);
         break;
     }
   }
@@ -86,6 +123,12 @@ export class Subscription {
 
     this._fundsService.createSubscription(fund).subscribe({
       next: () => {
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: `Se vinculo al fondo ${fund.name}. Enviaremos un mensaje a tu ${user?.notifications}.`,
+          life: 5000,
+        });
         this.getAllFunds();
       },
       error: (error) => {

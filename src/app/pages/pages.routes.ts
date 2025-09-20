@@ -27,6 +27,10 @@ export const routes: Routes = [
                 canActivate: [PermissionsGuard],
             },
             {
+                path: 'profile',
+                loadComponent: () => import("./profile/profile").then(c => c.Profile),
+            },
+            {
                 path: '**',
                 redirectTo: 'home',
                 pathMatch: 'full'

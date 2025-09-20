@@ -12,7 +12,7 @@
             @for(column of structureTable()?.structure; track $index) {
                 @if(column.key === 'actions') {
                     @if(structureTable()?.options?.actions?.show) {
-                        <th style="width: 5rem"></th>
+                        <th style="width: 2rem"></th>
                     }
                 } @else {
                     <th [pSortableColumn]="column.key">

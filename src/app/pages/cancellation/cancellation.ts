@@ -6,14 +6,22 @@ import { UserStoreService } from '@app/core/services/user-store.service';
 import { PortfolioItem } from '@app/core/interfaces/db.mocks.interface';
 import { FundsService } from '@app/core/services/funds.service';
 
+// PrimeNG
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+
 @Component({
   selector: 'app-cancellation',
-  imports: [AngularModule, Table],
+  imports: [AngularModule, Table, ToastModule, ConfirmDialog],
   templateUrl: './cancellation.html',
-  styleUrl: './cancellation.scss'
+  styleUrl: './cancellation.scss',
+  providers: [ConfirmationService, MessageService,]
 })
 export class Cancellation {
+  private _confirmationService = inject(ConfirmationService);
   private _fundsService = inject(FundsService);
+  private _messageService = inject(MessageService);
   private _userStoreService = inject(UserStoreService);
 
   isLoadingTable = signal<boolean>(true);
@@ -49,17 +57,59 @@ export class Cancellation {
     this.isLoadingTable.set(false);
   }
 
+  confirm(event: any, options: any) {
+    this._confirmationService.confirm({
+      target: event.target as EventTarget,
+      header: options.header,
+      message: options.message,
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: options.rejectButtonProps.label,
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: options.acceptButtonProps.label,
+      },
+      accept: () => {
+        options.accept();
+      },
+    });
+  }
+
   actionEvent(event: { item: PortfolioItem, action: string }) {
     switch (event.action) {
       case 'cancellation':
-        this.cancelSubscription(event.item);
+        const options = {
+          header: "Cancelar la suscripción",
+          message: "Estas seguro de cancelar la suscripción?",
+          acceptButtonProps: {
+            label: "Sí, Cancelar",
+          },
+          rejectButtonProps: {
+            label: "Cerrar",
+          },
+          accept: () => {
+            this.cancelSubscription(event.item);
+          },
+        }
+        this.confirm(event, options);
         break;
     }
   }
 
   cancelSubscription(portfolioItem: PortfolioItem) {
+    const user = this._userStoreService.user();
     this._fundsService.cancelSubscription(portfolioItem).subscribe({
       next: () => {
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: `Se cancelo la suscripción al fondo. Enviaremos un mensaje a tu ${user?.notifications}.`,
+          life: 5000,
+        });
         this.getAllPortfolio();
       },
       error: (error) => {

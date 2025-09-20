@@ -34,7 +34,7 @@ export class TransactionHistory {
   structureTable: TableInterface = {
     data: [],
     structure: [
-      { label: 'Tipo', sort: true, key: 'type' },
+      { label: 'Tipo', sort: true, key: 'type', capitalize: true },
       { label: 'Fondo', sort: true, key: 'fund.name' },
       { label: 'Monto', sort: true, key: 'amount', formatMoney: true },
       { label: 'Fecha', sort: true, key: 'date', formatDate: true },
@@ -53,19 +53,24 @@ export class TransactionHistory {
 
   ngOnInit() {
     this._buildViewByRole();
-    this.getAllUsers();
   }
 
   private _buildViewByRole() {
     this.isAdmin.set(this._userStoreService.user()?.role?.name === 'admin');
-    this.userControl.setValue(this._userStoreService.user()?.id!);
-    this.getTransactionsByUser();
+    if(this.isAdmin()) {
+      this.userControl.setValue(this._userStoreService.user()?.id!);
+      this.getTransactionsByUser();
+    } else {
+      this.getAllUsers();
+    }
   }
 
   getAllUsers() {
     this._userService.getAll().subscribe({
       next: (response) => {
-        this.listUsers = response;  
+        this.listUsers = response.filter(user => user.role?.name === 'admin');
+        this.userControl.setValue(this.listUsers[0].id);
+        this.getTransactionsByUser();
       },
       error: (error) => {
         console.log(error);

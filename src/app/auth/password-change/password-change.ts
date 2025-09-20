@@ -44,7 +44,12 @@ export class PasswordChange {
       next: (user) => {
         if (!user) {
           this.isLoading.set(false);
-          this._messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo enviar el correo' });
+          this._messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No es posible enviar correo el usuario no existe.',
+            life: 5000
+          });
           return;
         }
 
@@ -52,13 +57,14 @@ export class PasswordChange {
           severity: 'success',
           summary: 'Exito',
           detail: 'Se ha enviado un correo con el enlace para restablecer su contraseña',
+          life: 5000
         });
         this.form.reset();
         this.isLoading.set(false);
       },
       error: () => {
         this.isLoading.set(false);
-        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo enviar el correo' });
+        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al enviar correo.', life: 5000 });
       }
     });
 

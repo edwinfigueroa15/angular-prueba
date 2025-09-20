@@ -14,10 +14,9 @@ export class UserStoreService {
     user = this._user.asReadonly();
 
     setUser(user: User) {
-        const { password, ...userData } = user;
         const populateUser = {
-            ...userData,
-            role: this._mocksDbService.roles.find(role => role.id === userData.roleId)!
+            ...user,
+            role: this._mocksDbService.roles.find(role => role.id === user.roleId)!
         }
 
         localStorage.setItem('currentUser', this._utilsService.encrypt(JSON.stringify(populateUser)));
@@ -30,7 +29,6 @@ export class UserStoreService {
 
     updateUser(partial: Partial<User>) {
         const current = this._user();
-        const { password, ...partialData } = partial;
-        if (current) this._user.set({ ...current, ...partialData });
+        if (current) this._user.set({ ...current, ...partial });
     }
 }

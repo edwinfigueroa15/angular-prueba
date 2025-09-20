@@ -32,5 +32,19 @@
         "balance": 500000,
         "avatar": "https://i.pravatar.cc/150?img=5",
         "portfolio": []
+    },
+    {
+        "id": 3,
+        "username": "root",
+        "password": "root123",
+        "roleId": 1,
+        "role": null,
+        "name": "Luis Vargas",
+        "email": "luis@btg.com",
+        "phone": "3002223344",
+        "notifications": "sms",
+        "balance": 500000,
+        "avatar": "https://i.pravatar.cc/150?img=18",
+        "portfolio": []
     }
 ]
